@@ -1,0 +1,53 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="https://unpkg.com/tabulator-tables@5.6.1/dist/css/tabulator.min.css" rel="stylesheet">
+<link href="https://unpkg.com/tabulator-tables@5.6.1/dist/css/tabulator_site.min.css" rel="stylesheet">
+
+<style>
+  #example-table {
+    width: 100%; /* เปลี่ยนความกว้างตามต้องการ เช่น 90% ของหน้าจอ */
+    margin: auto; /* จัดตารางให้อยู่กึ่งกลาง */
+  }
+    /* ปรับขนาดตัวอักษรในทั้งตาราง */
+  .tabulator .tabulator-cell {
+    font-size: 14px; /* เปลี่ยนเป็นขนาดที่ต้องการ เช่น 16px, 12px */
+  }
+
+  /* ปรับขนาดตัวอักษรเฉพาะส่วนหัวของตาราง */
+  .tabulator .tabulator-col {
+    font-size: 14px; /* ปรับขนาดตามต้องการ */
+    font-weight: bold; /* ทำให้ตัวอักษรหนา (ถ้าต้องการ) */
+  }
+
+  /* ปรับขนาดตัวอักษรเฉพาะเซลล์ข้อมูล */
+  .tabulator .tabulator-row {
+    font-size: 14px; /* ปรับขนาดตามต้องการ */
+  }
+
+  /* ปรับขนาดตัวอักษรใน Header Filters */
+  .tabulator .tabulator-header-filter input {
+    font-size: 14px; /* ปรับขนาดตามต้องการ */
+  }
+
+    /* ปรับข้อความในเซลล์ของ Tabulator ให้ตัดข้อความเมื่อเกินขอบ */
+  .tabulator .tabulator-cell {
+    white-space: normal; /* เปิดการตัดข้อความ */
+    word-wrap: break-word; /* บังคับตัดข้อความ */
+    word-break: break-word; /* ตัดข้อความเมื่อถึงขอบ */
+    overflow: hidden; /* ซ่อนส่วนที่เกินขอบ */
+    text-overflow: ellipsis; /* ใช้ "..." แสดงเมื่อข้อความยาวเกิน */
+  }
+
+    //h4, h5, h6 {
+    //font-family: 'Noto Sans Thai', sans-serif; /* เปลี่ยนฟอนต์ */
+  //}
+
+  /* เปลี่ยนพื้นหลังของทั้งหน้าเว็บ (Body) */
+  body {
+    background-image: url('https://i0.wp.com/picjumbo.com/wp-content/uploads/autumn-background-with-space-for-text-and-leaves-around-free-image.jpeg?w=2210&quality=70'); /* ระบุ URL ของรูปภาพที่ต้องการ */
+    background-size: cover; /* ทำให้รูปภาพเต็มพื้นที่ของหน้าจอ */
+    background-position: top; /* จัดภาพให้อยู่ตรงกลาง */
+    background-repeat: no-repeat; /* ป้องกันการทำซ้ำของภาพ */
+    background-attachment: fixed; /* ทำให้ภาพพื้นหลังไม่เลื่อนตามการเลื่อนหน้าจอ */
+  }
+</style>
