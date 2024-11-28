@@ -1,0 +1,183 @@
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.6.1/dist/js/tabulator.min.js"></script>
+<script>
+  // Trigger table creation when the DOM is ready.
+  document.addEventListener("DOMContentLoaded", createTable);
+
+  function createTable(){
+    google.script.run.withSuccessHandler((tableData)=>{
+      console.log(tableData);
+      let table = new Tabulator("#example-table",{
+        data:tableData,
+        pagination:true,
+        paginationSize:20,
+        paginationSizeSelector:true,
+        movableColumns:true,
+        responsiveLayout:"collapse",
+        layout:"fitColumns",
+        columnDefaults:{tooltip:true,},
+        columns:[
+          //{title:"วันที่สร้างเอกสาร",field:"วันที่สร้างเอกสาร",headerFilter:true},
+          //{title:"จำนวนสินค้าคงเหลือ",field:"จำนวนสินค้าคงเหลือ",headerFilter:true,headerFilterPlaceholder: "จำนวนน้อยกว่าที่กำหนด",//headerFilterFunc:lessThanFilter},
+          //{title:"จำนวนขั้นต่ำ",field:"จำนวนขั้นต่ำ",},
+          //{title:"สถานะการเติมสินค้า",field:"สถานะการเติมสินค้า",headerFilter:true,headerFilterPlaceholder: "Category",},
+
+          //{title:"สาขา",field:"สาขา",hozAlign: "center",headerFilter:true},
+            {
+           title: "สาขาที่จอง", 
+           field: "สาขา", 
+           hozAlign: "center",  // จัดข้อความให้อยู่กึ่งกลาง
+           width: 90,           // กำหนดความกว้างเป็น 150px (ปรับตามความเหมาะสม)
+           headerWordWrap: true, // อนุญาตให้หัวคอลัมน์ตัดข้อความ
+           //headerFilter: true,
+           //headerFilterFunc: "=", // ใช้การกรองแบบเท่ากับ
+           //headerFilterPlaceholder: "Filter สาขา", // ข้อความในช่องกรอง
+           headerFilter: "select", // ใช้ Filter แบบ Dropdown
+            headerFilterParams: {
+              values: {
+                "": "All", // แสดงข้อมูลทั้งหมดเมื่อเลือก All
+                "คลัง BDCR": "คลัง BDCR",
+                "BTB": "BTB",
+                "BTRD": "BTRD",
+                "BTN": "BTN",
+                "คลัง JDCK": "คลัง JDCK",
+                "BTK": "BTK",
+                "BTY": "BTY",
+                "BTRP": "BTRP",
+                "BTRD(OFF)": "BTRD(OFF)",
+                "BTK KUKA": "BTK KUKA",
+                "BTP": "BTP",
+                "BTCM": "BTCM",
+                "BTH": "BTH",
+                "No Data": "No Data",
+                "BTKR": "BTKR",
+                "BTR": "BTR",
+                "BTUD": "BTUD",
+              },
+            },
+            headerFilterFunc: (headerValue, rowValue) => {
+              // ถ้าไม่ได้เลือกอะไร ให้แสดงข้อมูลทั้งหมด
+              if (!headerValue) {
+                return true;
+              }
+              // Exact Match (เปรียบเทียบแบบตรงตัว)
+              return headerValue === rowValue;
+            }, 
+           formatter: (cell) => `<span style="font-weight: bold;">${cell.getValue()}</span>` // ทำให้ข้อความหนา
+            },
+
+          //{title:"วันจอง",field:"วันที่สร้างเอกสาร",hozAlign: "center",headerFilter:true},
+            {
+           title: "วันจอง", 
+           field: "วันที่สร้างเอกสาร", 
+           hozAlign: "center",  // จัดข้อความให้อยู่กึ่งกลาง
+           width: 90,           // กำหนดความกว้างเป็น 150px (ปรับตามความเหมาะสม)
+           headerWordWrap: true, // อนุญาตให้หัวคอลัมน์ตัดข้อความ
+           //headerFilter:true
+            },
+                        {
+           title: "Lock ของที่ Location", 
+           field: "Lock ของที่ Location", 
+           //hozAlign: "center",  // จัดข้อความให้อยู่กึ่งกลาง
+           width: 150,           // กำหนดความกว้างเป็น 150px (ปรับตามความเหมาะสม)
+           headerWordWrap: true, // อนุญาตให้หัวคอลัมน์ตัดข้อความ
+           //headerFilter:true,
+           formatter: (cell) => {
+               let value = cell.getValue();
+               if (value === "BDCR/Stock (BDCR)/Crane") {
+                  return `<span style="color: green; font-weight: bold;">${value}</span>`;
+               } else if (value === "BDCR/BTK") {
+                  return `<span style="color: orange; font-weight: bold;">${value}</span>`;
+              }
+             return value;
+            }
+            },
+
+          {
+            title:"SO/BRQ/SRQ",
+            field:"เลขที่อ้างอิงเอกสาร",
+            headerFilter:true,
+            headerFilterPlaceholder: "SO-24-00000xxxx" // ข้อความในช่องกรอง
+            },
+          {title:"ชื่อคู่ค้า",field:"ชื่อคู่ค้า",headerFilter:true},
+          //{title:"OdooCode",field:"รหัสสินค้า (Odoo Code)",hozAlign: "center",headerFilter:true},
+            {
+           title: "Odoo Code", 
+           field: "รหัสสินค้า (Odoo Code)", 
+           hozAlign: "center",  // จัดข้อความให้อยู่กึ่งกลาง
+           width: 70,           // กำหนดความกว้างเป็น 150px (ปรับตามความเหมาะสม)
+           headerWordWrap: true, // อนุญาตให้หัวคอลัมน์ตัดข้อความ
+           headerFilter:true
+            },
+
+          {
+            title:"ชื่อสินค้า",
+            field:"ชื่อสินค้า",
+            headerFilter:true,
+            width: 200,
+            },
+
+          //{title:"จำนวนจอง",field:"จำนวนจอง",hozAlign: "center"},
+          {
+           title: "จำนวนจอง", 
+           field: "จำนวนจอง", 
+           hozAlign: "center",  // จัดข้อความให้อยู่กึ่งกลาง
+           width: 60,           // กำหนดความกว้างเป็น 150px (ปรับตามความเหมาะสม)
+           headerWordWrap: true, // อนุญาตให้หัวคอลัมน์ตัดข้อความ
+           formatter: (cell) => `<span style="font-weight: bold;">${cell.getValue()}</span>` // ทำให้ข้อความหนา
+            },
+
+          {title:"สถานะการชำระเงิน",field:"สถานะการชำระเงิน",
+             hozAlign: "center",
+             width: 100,           // กำหนดความกว้างเป็น 150px (ปรับตามความเหมาะสม)
+             //headerFilter:true,
+             headerWordWrap: true,
+             formatter: (cell) => {
+               let value = cell.getValue();
+               if (value === "ยังไม่ได้ชำระเงิน") {
+                  return `<span style="color: red; font-weight: bold;">${value}</span>`;
+               } else if (value === "ชำระเงินเต็มจำนวนแล้ว") {
+                  return `<span style="color: green; font-weight: bold;">${value}</span>`;
+               } else if (value === "รับชำระเงินแล้วบางส่วน") {
+                 return `<span style="color: orange; font-weight: bold;">${value}</span>`;
+              }
+             return value;
+            }
+           },
+
+          //{title:"จำนวนวันจอง",field:"ระยะเวลาในการจอง (วัน)",hozAlign: "center",headerFilter:true,headerFilterFunc:greaterThanFilter}, //headerFilterFunc:greaterThanFilter
+            {
+           title: "จำนวนวันจอง", 
+           field: "ระยะเวลาในการจอง (วัน)", 
+           hozAlign: "center",  // จัดข้อความให้อยู่กึ่งกลาง
+           width: 80,           // กำหนดความกว้างเป็น 150px (ปรับตามความเหมาะสม)
+           headerWordWrap: true, // อนุญาตให้หัวคอลัมน์ตัดข้อความ
+           //headerFilter:true,
+           //headerFilterFunc:greaterThanFilter
+            },
+
+          {title:"ชื่อคนจอง",field:"ชื่อคนจอง",headerFilter:true},    
+        ],
+      });
+    }).getData();
+  }
+
+
+
+  function greaterThanFilter(headerValue, rowValue){
+    // Convert values to numbers for comparison (if necessary)
+    headerValue = parseFloat(headerValue);
+    rowValue = parseFloat(rowValue);
+
+    //Greater than logic
+    return rowValue > headerValue;
+  }
+
+  function lessThanFilter(headerValue, rowValue){
+    // Convert values to numbers for comparison (if necessary)
+    headerValue = parseFloat(headerValue);
+    rowValue = parseFloat(rowValue);
+
+    //Greater than logic
+    return rowValue < headerValue;
+  }
+</script>
